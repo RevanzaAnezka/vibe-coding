@@ -10,13 +10,15 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "elysia": "^1.1.2",
+    "bcrypt": "^6.0.0",
     "drizzle-orm": "^0.33.0",
+    "elysia": "^1.1.2",
     "mysql2": "^3.11.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^22.5.0",
     "drizzle-kit": "^0.24.0",
-    "typescript": "^5.5.4",
-    "@types/node": "^22.5.0"
+    "typescript": "^5.5.4"
   }
 }
