@@ -1,0 +1,22 @@
+{
+  "name": "vibe-coding-api",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "elysia": "^1.1.2",
+    "drizzle-orm": "^0.33.0",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.24.0",
+    "typescript": "^5.5.4",
+    "@types/node": "^22.5.0"
+  }
+}
