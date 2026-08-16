@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { db } from "../db";
-import { users } from "../db/schema";
+import { users, sessions } from "../db/schema";
 import { eq } from "drizzle-orm";
 import type { NewUser } from "../db/schema";
 
@@ -23,3 +23,25 @@ export async function registerUser(data: Omit<NewUser, "id" | "createdAt">) {
     password: hashedPassword,
   });
 }
+
+export async function loginUser(email: string, password: string) {
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  if (result.length === 0) {
+    throw new Error("invalid credentials");
+  }
+
+  const user = result[0];
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    throw new Error("invalid credentials");
+  }
+
+  const token = crypto.randomUUID();
+  await db.insert(sessions).values({
+    token,
+    userId: user.id,
+  });
+
+  return { token };
+}
+

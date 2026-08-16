@@ -1,8 +1,8 @@
 import { Elysia, t } from "elysia";
-import { registerUser } from "../services/user-services";
+import { registerUser, loginUser } from "../services/user-services";
 
-export const userRoutes = new Elysia({ prefix: "/api/users" })
-  .post("/", async ({ body, set }) => {
+export const userRoutes = new Elysia()
+  .post("/api/users", async ({ body, set }) => {
     try {
       await registerUser(body);
       set.status = 201;
@@ -30,4 +30,25 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
       email: t.String(),
       password: t.String()
     })
+  })
+  .post("/api/login", async ({ body, set }) => {
+    try {
+      await loginUser(body.email, body.password);
+      set.status = 201;
+      return { message: "login successfully" };
+    } catch (error: any) {
+      set.status = 401;
+      return {
+        message: "Invalid email or password",
+        error: {
+          email: "invalid credentials"
+        }
+      };
+    }
+  }, {
+    body: t.Object({
+      email: t.String(),
+      password: t.String()
+    })
   });
+
